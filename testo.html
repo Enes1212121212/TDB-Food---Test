@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>Scroll Effects Lab</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    background:#f5f5f7;
+    color:#111;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    overflow-x:hidden;
+}
+
+.top{
+    position:fixed;
+    z-index:99;
+    top:0;
+    left:0;
+    right:0;
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    background:#ffffffc9;
+    backdrop-filter:blur(18px);
+}
+
+.intro,
+.end{
+    height:100svh;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    padding:24px;
+}
+
+.intro h1,
+.end h2{
+    font-size:clamp(55px,13vw,120px);
+    line-height:.86;
+    letter-spacing:-.07em;
+    margin:0;
+}
+
+.intro p{
+    color:#666;
+    font-size:18px;
+}
+
+.label{
+    position:absolute;
+    z-index:8;
+    top:75px;
+    left:22px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.08em;
+    color:#777;
+}
+
+.scene{
+    height:230svh;
+    position:relative;
+}
+
+.sticky{
+    position:sticky;
+    top:0;
+    height:100svh;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+}
+
+
+/* =========================
+   01 FULLSCREEN ZOOM
+========================= */
+
+.box{
+    width:76vw;
+    height:58svh;
+    border-radius:34px;
+
+    background:
+    linear-gradient(145deg,#091a35,#2584df);
+
+    display:grid;
+    place-items:center;
+
+    color:white;
+    text-align:center;
+    padding:25px;
+
+    will-change:transform;
+}
+
+.box h2,
+.mask h2,
+.theme h2,
+.cin h2{
+    font-size:clamp(44px,10vw,100px);
+    line-height:.9;
+    letter-spacing:-.06em;
+    margin:0;
+}
+
+
+/* =========================
+   DARK SECTIONS
+========================= */
+
+.dark{
+    background:#050505;
+    color:#fff;
+}
+
+
+/* =========================
+   02 MASK REVEAL
+========================= */
+
+.mask{
+    width:40vw;
+    height:32svh;
+
+    border-radius:40px;
+
+    background:
+    radial-gradient(
+        circle at 30% 20%,
+        #63b1ff,
+        #173d70 40%,
+        #05070b 78%
+    );
+
+    display:grid;
+    place-items:center;
+
+    text-align:center;
+    overflow:hidden;
+
+    will-change:
+    width,
+    height,
+    border-radius;
+}
+
+.mask h2{
+    width:80vw;
+}
+
+
+/* =========================
+   03 DEPTH / PARALLAX
+========================= */
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    will-change:transform;
+}
+
+.o1{
+    width:70vw;
+    height:70vw;
+    background:#134f9b;
+    opacity:.65;
+}
+
+.o2{
+    width:38vw;
+    height:38vw;
+    background:#62b0ff;
+    opacity:.55;
+}
+
+.depthTitle{
+    z-index:2;
+    font-size:clamp(48px,10vw,100px);
+    letter-spacing:-.06em;
+}
+
+
+/* =========================
+   04 SCENE SWAP
+========================= */
+
+.swapCard{
+    position:absolute;
+    text-align:center;
+    opacity:0;
+}
+
+.swapCard h2{
+    font-size:clamp(55px,12vw,115px);
+    letter-spacing:-.07em;
+    margin:0;
+}
+
+
+/* =========================
+   05 HORIZONTAL SLIDES
+========================= */
+
+.horizontal{
+    height:320svh;
+    position:relative;
+    background:#08090b;
+    color:#fff;
+}
+
+.track{
+    display:flex;
+    gap:18px;
+    padding:0 7vw;
+    will-change:transform;
+}
+
+.slide{
+    flex:0 0 82vw;
+    height:68svh;
+
+    border-radius:34px;
+    padding:35px;
+
+    display:flex;
+    align-items:flex-end;
+
+    background:
+    linear-gradient(145deg,#12243c,#277bd1);
+}
+
+.slide:nth-child(2){
+    background:
+    linear-gradient(145deg,#222,#777);
+}
+
+.slide:nth-child(3){
+    background:
+    linear-gradient(145deg,#173b2b,#55a27b);
+}
+
+.slide h2{
+    font-size:clamp(46px,10vw,95px);
+    letter-spacing:-.06em;
+}
+
+
+/* =========================
+   06 WORD REVEAL
+========================= */
+
+.wordsSec{
+    min-height:130svh;
+    padding:18vh 8vw;
+    background:#fff;
+}
+
+.words{
+    font-size:clamp(42px,8vw,88px);
+    line-height:1.03;
+    letter-spacing:-.055em;
+    font-weight:750;
+}
+
+.words span{
+    opacity:.12;
+}
+
+
+/* =========================
+   07 STICKY STACK
+========================= */
+
+.stack{
+    padding:14vh 6vw 30vh;
+    background:#eceef2;
+}
+
+.stackCard{
+    position:sticky;
+    top:14vh;
+
+    height:68svh;
+
+    margin:0 auto 12vh;
+    max-width:900px;
+
+    border-radius:36px;
+    padding:35px;
+
+    color:white;
+
+    display:flex;
+    align-items:flex-end;
+
+    background:
+    linear-gradient(145deg,#102e52,#2580d5);
+}
+
+.stackCard:nth-child(3){
+    top:17vh;
+
+    background:
+    linear-gradient(145deg,#222,#777);
+}
+
+.stackCard:nth-child(4){
+    top:20vh;
+
+    background:
+    linear-gradient(145deg,#173b2b,#55a27b);
+}
+
+.stackCard h3{
+    font-size:48px;
+}
+
+
+/* =========================
+   08 LIGHT TO DARK
+========================= */
+
+.theme{
+    text-align:center;
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    padding:25px;
+}
+
+
+/* =========================
+   09 CINEMATIC TRANSITION
+========================= */
+
+.cin{
+    position:absolute;
+    text-align:center;
+}
+
+.cin.b{
+    opacity:0;
+    transform:scale(1.35);
+}
+
+
+/* =========================
+   10 PRODUCT ROTATION
+========================= */
+
+.rotate{
+    perspective:1000px;
+}
+
+.phone{
+    width:min(52vw,310px);
+    aspect-ratio:.52;
+
+    border-radius:45px;
+
+    background:
+    linear-gradient(145deg,#1c1d20,#74777c);
+
+    border:7px solid #aaa;
+
+    box-shadow:
+    0 30px 80px #0004;
+
+    will-change:transform;
+}
+
+.phone:after{
+    content:"";
+
+    display:block;
+
+    width:34%;
+    height:4%;
+
+    border-radius:20px;
+
+    background:#080808;
+
+    margin:14px auto;
+}
+
+
+/* =========================
+   11 SEQUENCE / SCRUB
+========================= */
+
+.rings{
+    position:absolute;
+
+    width:35vw;
+    height:35vw;
+
+    border:3px solid #65b4ff;
+    border-radius:50%;
+
+    box-shadow:
+    0 0 0 35px #65b4ff15,
+    0 0 0 75px #65b4ff0d;
+
+    will-change:transform;
+}
+
+.scrubTitle{
+    z-index:2;
+
+    text-align:center;
+
+    font-size:
+    clamp(44px,9vw,100px);
+
+    letter-spacing:-.06em;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header class="top">
+
+    <b>SCROLL EFFECTS LAB</b>
+
+    <span>iPhone Test</span>
+
+</header>
+
+
+<!-- START -->
+
+<section class="intro">
+
+    <div>
+
+        <h1>
+            Scroll.
+            <br>
+            Watch.
+        </h1>
+
+        <p>
+            Langsam nach unten und auch wieder
+            zurück scrollen.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- 01 -->
+
+<section
+    class="scene"
+    id="s1"
+>
+
+    <div class="label">
+        01 · FULLSCREEN ZOOM
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="box"
+            id="zoom"
+        >
+
+            <h2>
+                Zoom.
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 02 -->
+
+<section
+    class="scene dark"
+    id="s2"
+>
+
+    <div class="label">
+        02 · MASK REVEAL
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="mask"
+            id="mask"
+        >
+
+            <h2>
+                Fenster wird Vollbild.
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 03 -->
+
+<section
+    class="scene dark"
+    id="s3"
+>
+
+    <div class="label">
+        03 · PARALLAX DEPTH
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="orb o1"
+            id="o1"
+        ></div>
+
+        <div
+            class="orb o2"
+            id="o2"
+        ></div>
+
+        <h2
+            class="depthTitle"
+            id="dt"
+        >
+            Mehr Tiefe.
+        </h2>
+
+    </div>
+
+</section>
+
+
+
+<!-- 04 -->
+
+<section
+    class="scene"
+    id="s4"
+>
+
+    <div class="label">
+        04 · PINNED SCENE SWAP
+    </div>
+
+    <div class="sticky">
+
+        <div class="swapCard">
+            <h2>Frisch.</h2>
+        </div>
+
+        <div class="swapCard">
+            <h2>Schnell.</h2>
+        </div>
+
+        <div class="swapCard">
+            <h2>Direkt.</h2>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 05 -->
+
+<section
+    class="horizontal"
+    id="s5"
+>
+
+    <div class="label">
+        05 · HORIZONTAL SLIDES
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="track"
+            id="track"
+        >
+
+            <div class="slide">
+                <h2>Slide 01</h2>
+            </div>
+
+            <div class="slide">
+                <h2>Slide 02</h2>
+            </div>
+
+            <div class="slide">
+                <h2>Slide 03</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 06 -->
+
+<section
+    class="wordsSec"
+    id="s6"
+>
+
+    <div
+        class="label"
+        style="
+        position:static;
+        margin-bottom:45px;
+        "
+    >
+
+        06 · WORD REVEAL
+
+    </div>
+
+    <div
+        class="words"
+        id="words"
+    >
+
+        Große Texte werden beim Scrollen
+        Stück für Stück sichtbar und führen
+        den Blick durch die Geschichte.
+
+    </div>
+
+</section>
+
+
+
+<!-- 07 -->
+
+<section class="stack">
+
+    <div
+        class="label"
+        style="position:static"
+    >
+
+        07 · STICKY STACK
+
+    </div>
+
+
+    <div class="stackCard">
+
+        <h3>
+            Karte Eins
+        </h3>
+
+    </div>
+
+
+    <div class="stackCard">
+
+        <h3>
+            Karte Zwei
+        </h3>
+
+    </div>
+
+
+    <div class="stackCard">
+
+        <h3>
+            Karte Drei
+        </h3>
+
+    </div>
+
+</section>
+
+
+
+<!-- 08 -->
+
+<section
+    class="scene"
+    id="s8"
+>
+
+    <div class="label">
+        08 · LIGHT TO DARK
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="theme"
+            id="theme"
+        >
+
+            <h2>
+                Die Stimmung verändert sich.
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 09 -->
+
+<section
+    class="scene dark"
+    id="s9"
+>
+
+    <div class="label">
+        09 · CINEMATIC TRANSITION
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="cin a"
+            id="ca"
+        >
+
+            <h2>
+                Eine Szene.
+            </h2>
+
+        </div>
+
+
+        <div
+            class="cin b"
+            id="cb"
+        >
+
+            <h2>
+                Wird zur nächsten.
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 10 -->
+
+<section
+    class="scene"
+    id="s10"
+>
+
+    <div class="label">
+        10 · PRODUCT ROTATION
+    </div>
+
+    <div class="sticky rotate">
+
+        <div
+            class="phone"
+            id="phone"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- 11 -->
+
+<section
+    class="scene dark"
+    id="s11"
+>
+
+    <div class="label">
+        11 · SEQUENCE / SCRUB
+    </div>
+
+    <div class="sticky">
+
+        <div
+            class="rings"
+            id="rings"
+        ></div>
+
+        <h2
+            class="scrubTitle"
+            id="st"
+        >
+
+            Scroll steuert
+            <br>
+            jeden Moment.
+
+        </h2>
+
+    </div>
+
+</section>
+
+
+
+<!-- ENDE -->
+
+<section class="end">
+
+    <div>
+
+        <h2>
+            Fertig.
+        </h2>
+
+        <p>
+            Merke dir einfach die Nummern,
+            die dir gefallen.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+/* Hilfsfunktionen */
+
+const C = n =>
+    Math.max(
+        0,
+        Math.min(1,n)
+    );
+
+
+const P = e => {
+
+    let r =
+        e.getBoundingClientRect();
+
+    let d =
+        e.offsetHeight -
+        innerHeight;
+
+    return C(
+        -r.top / d
+    );
+
+};
+
+
+
+/* Text in einzelne Wörter */
+
+words.innerHTML =
+    words
+    .textContent
+    .trim()
+    .split(/\s+/)
+    .map(
+        w =>
+        `<span>${w} </span>`
+    )
+    .join("");
+
+
+
+function R(){
+
+
+/* =====================
+   01 ZOOM
+===================== */
+
+let p = P(s1);
+
+zoom.style.transform =
+    `scale(${
+        .72 + p * .43
+    })`;
+
+zoom.style.borderRadius =
+    `${
+        34 * (1-p)
+    }px`;
+
+
+
+/* =====================
+   02 MASK
+===================== */
+
+p = P(s2);
+
+mask.style.width =
+    `${
+        40 + p * 68
+    }vw`;
+
+mask.style.height =
+    `${
+        32 + p * 72
+    }svh`;
+
+mask.style.borderRadius =
+    `${
+        40 * (1-p)
+    }px`;
+
+
+
+/* =====================
+   03 DEPTH
+===================== */
+
+p = P(s3);
+
+o1.style.transform =
+    `scale(${
+        .6 + p * 1.5
+    })
+    translateY(${
+        -p * 8
+    }vh)`;
+
+
+o2.style.transform =
+    `scale(${
+        .5 + p * 2.3
+    })
+    translateY(${
+        p * 10
+    }vh)`;
+
+
+dt.style.transform =
+    `scale(${
+        .8 + p * .45
+    })`;
+
+
+
+/* =====================
+   04 SCENE SWAP
+===================== */
+
+p = P(s4);
+
+document
+.querySelectorAll(
+    ".swapCard"
+)
+.forEach(
+    (c,i) => {
+
+        let x =
+            i / 2;
+
+        let a =
+            C(
+                1 -
+                Math.abs(
+                    p-x
+                ) * 4
+            );
+
+        c.style.opacity =
+            a;
+
+        c.style.transform =
+            `translateY(${
+                (x-p) * 100
+            }px)
+            scale(${
+                .9 +
+                a * .1
+            })`;
+
+    }
+);
+
+
+
+/* =====================
+   05 HORIZONTAL
+===================== */
+
+p = P(s5);
+
+track.style.transform =
+    `translateX(${
+        -p *
+        (
+            track.scrollWidth -
+            innerWidth +
+            innerWidth * .07
+        )
+    }px)`;
+
+
+
+/* =====================
+   06 WORD REVEAL
+===================== */
+
+let r =
+    s6.getBoundingClientRect();
+
+let wp =
+    C(
+        (
+            innerHeight -
+            r.top
+        )
+        /
+        (
+            innerHeight +
+            r.height * .45
+        )
+    );
+
+
+document
+.querySelectorAll(
+    "#words span"
+)
+.forEach(
+    (x,i,a) => {
+
+        x.style.opacity =
+            .12 +
+            C(
+                (
+                    wp -
+                    i / a.length
+                ) * 4
+            )
+            * .88;
+
+    }
+);
+
+
+
+/* =====================
+   08 LIGHT → DARK
+===================== */
+
+p = P(s8);
+
+let v =
+    Math.round(
+        245 * (1-p)
+        +
+        8 * p
+    );
+
+
+theme.style.background =
+    `rgb(
+        ${v},
+        ${v},
+        ${v}
+    )`;
+
+
+theme.style.color =
+    p > .48
+    ?
+    "white"
+    :
+    "#111";
+
+
+
+/* =====================
+   09 CINEMATIC
+===================== */
+
+p = P(s9);
+
+
+ca.style.opacity =
+    1 -
+    C(
+        p * 1.8
+    );
+
+
+ca.style.transform =
+    `scale(${
+        1 + p * 1.7
+    })`;
+
+
+cb.style.opacity =
+    C(
+        (p-.38) * 2.2
+    );
+
+
+cb.style.transform =
+    `scale(${
+        1.35 -
+        p * .35
+    })`;
+
+
+
+/* =====================
+   10 ROTATION
+===================== */
+
+p = P(s10);
+
+
+phone.style.transform =
+    `rotateY(${
+        -62 +
+        p * 124
+    }deg)
+
+    rotateX(${
+        8 -
+        p * 16
+    }deg)
+
+    scale(${
+        .82 +
+        Math.sin(
+            p * Math.PI
+        ) * .22
+    })`;
+
+
+
+/* =====================
+   11 SCRUB
+===================== */
+
+p = P(s11);
+
+
+rings.style.transform =
+    `scale(${
+        .45 +
+        p * 4.5
+    })
+
+    rotate(${
+        p * 220
+    }deg)`;
+
+
+st.style.transform =
+    `scale(${
+        .78 +
+        p * .5
+    })`;
+
+}
+
+
+
+/* Scroll Performance */
+
+let t = false;
+
+
+addEventListener(
+    "scroll",
+    () => {
+
+        if(!t){
+
+            requestAnimationFrame(
+                () => {
+
+                    R();
+
+                    t = false;
+
+                }
+            );
+
+            t = true;
+
+        }
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+addEventListener(
+    "resize",
+    R
+);
+
+
+R();
+
+</script>
+
+</body>
+</html>
