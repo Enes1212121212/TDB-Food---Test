@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Website Effekt-Test</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f7f8fa;
+  color:#111827;
+  overflow-x:hidden;
+}
+
+/* NAVIGATION */
+
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:72px;
+  padding:0 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:100;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.nav-links{
+  display:flex;
+  gap:28px;
+  font-size:14px;
+}
+
+.nav-links span{
+  color:#475467;
+}
+
+/* HERO */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 24px 80px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(32,115,220,.16),transparent 30%),
+    radial-gradient(circle at 80% 70%,rgba(8,54,110,.13),transparent 35%),
+    #f7f8fa;
+}
+
+.hero-inner{
+  max-width:950px;
+  position:relative;
+  z-index:2;
+}
+
+.eyebrow{
+  display:inline-block;
+  padding:9px 16px;
+  background:#e8f1ff;
+  color:#1769c2;
+  border-radius:100px;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:25px;
+}
+
+.hero h1{
+  font-size:clamp(55px,9vw,115px);
+  line-height:.95;
+  letter-spacing:-5px;
+  margin-bottom:30px;
+}
+
+.hero p{
+  max-width:620px;
+  margin:auto;
+  color:#667085;
+  font-size:20px;
+  line-height:1.55;
+}
+
+.scroll-hint{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#667085;
+  font-size:13px;
+}
+
+.scroll-hint::after{
+  content:"↓";
+  display:block;
+  margin-top:8px;
+  font-size:22px;
+}
+
+/* =========================
+   EFFEKT 1 – SCROLL ZOOM
+   ========================= */
+
+.zoom-section{
+  height:220vh;
+  position:relative;
+  background:#f7f8fa;
+}
+
+.zoom-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.zoom-card{
+  width:72vw;
+  height:65vh;
+  border-radius:35px;
+  overflow:hidden;
+  position:relative;
+  transform:scale(.72);
+  will-change:transform,border-radius;
+  background:
+    linear-gradient(135deg,#0b3c75,#2181dc);
+}
+
+.zoom-background{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 70% 30%,rgba(255,255,255,.18),transparent 25%),
+    linear-gradient(135deg,#082d5c,#1674cf);
+  transform:scale(1.15);
+}
+
+.zoom-content{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  padding:30px;
+}
+
+.zoom-content div{
+  max-width:850px;
+}
+
+.zoom-number{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  opacity:.7;
+  margin-bottom:20px;
+}
+
+.zoom-content h2{
+  font-size:clamp(45px,8vw,100px);
+  line-height:.95;
+  letter-spacing:-4px;
+}
+
+.zoom-content p{
+  margin:25px auto 0;
+  max-width:600px;
+  font-size:18px;
+  line-height:1.5;
+  opacity:.8;
+}
+
+/* =========================
+   EFFEKT 2 – TEXT REVEAL
+   ========================= */
+
+.reveal-section{
+  min-height:110vh;
+  display:flex;
+  align-items:center;
+  padding:100px 7%;
+  background:white;
+}
+
+.reveal-wrap{
+  max-width:1100px;
+  margin:auto;
+}
+
+.small-title{
+  color:#1769c2;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:25px;
+}
+
+.big-reveal{
+  font-size:clamp(42px,7vw,85px);
+  line-height:1.02;
+  letter-spacing:-3px;
+}
+
+.word{
+  opacity:.13;
+  transition:opacity .2s linear;
+}
+
+/* =========================
+   EFFEKT 3 – BILD + TEXT
+   ========================= */
+
+.split{
+  min-height:110vh;
+  padding:120px 6%;
+  background:#edf4fc;
+  display:flex;
+  align-items:center;
+}
+
+.split-inner{
+  max-width:1250px;
+  width:100%;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:80px;
+  align-items:center;
+}
+
+.fake-image{
+  height:650px;
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.25),transparent 25%),
+    linear-gradient(145deg,#164f8d,#0a2749);
+  transform:translateY(80px) scale(.9);
+  opacity:0;
+  transition:
+    transform 1s cubic-bezier(.2,.8,.2,1),
+    opacity 1s ease;
+}
+
+.fake-image.visible{
+  transform:translateY(0) scale(1);
+  opacity:1;
+}
+
+.split-text{
+  transform:translateY(70px);
+  opacity:0;
+  transition:
+    transform 1s cubic-bezier(.2,.8,.2,1),
+    opacity 1s ease;
+}
+
+.split-text.visible{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.split-text span{
+  color:#1769c2;
+  font-size:14px;
+  font-weight:700;
+}
+
+.split-text h2{
+  font-size:clamp(45px,6vw,76px);
+  line-height:1;
+  letter-spacing:-3px;
+  margin:18px 0 25px;
+}
+
+.split-text p{
+  color:#667085;
+  font-size:18px;
+  line-height:1.65;
+}
+
+/* =========================
+   EFFEKT 4 – HORIZONTAL
+   ========================= */
+
+.horizontal-section{
+  height:300vh;
+  position:relative;
+  background:#071c35;
+}
+
+.horizontal-sticky{
+  height:100vh;
+  position:sticky;
+  top:0;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+
+.horizontal-track{
+  display:flex;
+  gap:30px;
+  padding-left:8vw;
+  will-change:transform;
+}
+
+.product-card{
+  flex:0 0 72vw;
+  height:70vh;
+  border-radius:35px;
+  padding:55px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.product-card:nth-child(1){
+  background:linear-gradient(135deg,#1467ba,#0a3867);
+}
+
+.product-card:nth-child(2){
+  background:linear-gradient(135deg,#265c8e,#102a45);
+}
+
+.product-card:nth-child(3){
+  background:linear-gradient(135deg,#2789e8,#0c4b86);
+}
+
+.product-card .number{
+  position:absolute;
+  top:40px;
+  right:45px;
+  font-size:90px;
+  opacity:.08;
+  font-weight:900;
+}
+
+.product-card h3{
+  font-size:clamp(40px,6vw,75px);
+  letter-spacing:-3px;
+}
+
+.product-card p{
+  max-width:500px;
+  margin-top:15px;
+  opacity:.7;
+  line-height:1.5;
+}
+
+/* =========================
+   EFFEKT 5 – FINAL ZOOM
+   ========================= */
+
+.final{
+  min-height:110vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:100px 25px;
+  text-align:center;
+  background:white;
+  overflow:hidden;
+}
+
+.final-content{
+  transform:scale(.75);
+  opacity:.2;
+  transition:
+    transform 1.2s cubic-bezier(.2,.8,.2,1),
+    opacity 1s ease;
+}
+
+.final-content.visible{
+  transform:scale(1);
+  opacity:1;
+}
+
+.final h2{
+  font-size:clamp(55px,9vw,120px);
+  line-height:.9;
+  letter-spacing:-5px;
+}
+
+.final p{
+  margin:30px auto;
+  max-width:600px;
+  color:#667085;
+  font-size:19px;
+}
+
+.button{
+  display:inline-block;
+  padding:17px 30px;
+  border-radius:100px;
+  background:#1769c2;
+  color:white;
+  font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  nav{
+    height:64px;
+    padding:0 20px;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .hero h1{
+    letter-spacing:-3px;
+  }
+
+  .zoom-card{
+    width:86vw;
+    height:58vh;
+    border-radius:28px;
+  }
+
+  .zoom-content h2{
+    letter-spacing:-2px;
+  }
+
+  .split{
+    padding:90px 22px;
+  }
+
+  .split-inner{
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+
+  .fake-image{
+    height:480px;
+  }
+
+  .split-text h2{
+    letter-spacing:-2px;
+  }
+
+  .product-card{
+    flex-basis:84vw;
+    height:65vh;
+    padding:35px;
+  }
+
+  .final h2{
+    letter-spacing:-3px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">LOGO</div>
+
+  <div class="nav-links">
+    <span>Produkte</span>
+    <span>Unternehmen</span>
+    <span>Lieferung</span>
+    <span>Kontakt</span>
+  </div>
+</nav>
+
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div class="eyebrow">
+      Beispiel Webseite
+    </div>
+
+    <h1>
+      Weniger statisch.<br>
+      Mehr Bewegung.
+    </h1>
+
+    <p>
+      Diese Seite dient nur dazu, verschiedene Animationen
+      und Scroll-Effekte auszuprobieren.
+    </p>
+
+  </div>
+
+  <div class="scroll-hint">
+    Runterscrollen
+  </div>
+
+</section>
+
+
+<!-- ZOOM -->
+
+<section class="zoom-section" id="zoomSection">
+
+  <div class="zoom-sticky">
+
+    <div class="zoom-card" id="zoomCard">
+
+      <div class="zoom-background"
+           id="zoomBackground"></div>
+
+      <div class="zoom-content">
+
+        <div>
+
+          <div class="zoom-number">
+            Effekt 01 · Scroll Zoom
+          </div>
+
+          <h2>
+            Das Bild wächst mit dir.
+          </h2>
+
+          <p>
+            Beim Scrollen wird dieser Bereich immer größer,
+            bis er fast den gesamten Bildschirm einnimmt.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TEXT REVEAL -->
+
+<section class="reveal-section"
+         id="revealSection">
+
+  <div class="reveal-wrap">
+
+    <div class="small-title">
+      EFFEKT 02 · TEXT REVEAL
+    </div>
+
+    <div class="big-reveal"
+         id="revealText">
+
+      <span class="word">Große</span>
+      <span class="word">Texte</span>
+      <span class="word">werden</span>
+      <span class="word">beim</span>
+      <span class="word">Scrollen</span>
+      <span class="word">Schritt</span>
+      <span class="word">für</span>
+      <span class="word">Schritt</span>
+      <span class="word">sichtbar.</span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SPLIT -->
+
+<section class="split">
+
+  <div class="split-inner">
+
+    <div class="fake-image observe"></div>
+
+    <div class="split-text observe">
+
+      <span>EFFEKT 03 · SOFT REVEAL</span>
+
+      <h2>
+        Ruhig.<br>
+        Aber nicht langweilig.
+      </h2>
+
+      <p>
+        Bilder und Texte kommen leicht von unten,
+        werden größer und blenden gleichzeitig ein.
+        Das ist deutlich dezenter als der große Zoom-Effekt.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HORIZONTAL -->
+
+<section class="horizontal-section"
+         id="horizontalSection">
+
+  <div class="horizontal-sticky">
+
+    <div class="horizontal-track"
+         id="horizontalTrack">
+
+      <div class="product-card">
+
+        <div class="number">01</div>
+
+        <h3>Bereich Eins</h3>
+
+        <p>
+          Beim normalen Scrollen bewegt sich der Inhalt
+          plötzlich horizontal.
+        </p>
+
+      </div>
+
+
+      <div class="product-card">
+
+        <div class="number">02</div>
+
+        <h3>Bereich Zwei</h3>
+
+        <p>
+          Später könnten hier beispielsweise verschiedene
+          Produktgruppen gezeigt werden.
+        </p>
+
+      </div>
+
+
+      <div class="product-card">
+
+        <div class="number">03</div>
+
+        <h3>Bereich Drei</h3>
+
+        <p>
+          Danach geht die Webseite wieder ganz normal
+          nach unten weiter.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FINAL -->
+
+<section class="final">
+
+  <div class="final-content observe">
+
+    <h2>
+      Das Ende<br>
+      darf auch wirken.
+    </h2>
+
+    <p>
+      Noch ein leichter Zoom beim Erscheinen.
+      Später könnte hier die Kontaktaufforderung stehen.
+    </p>
+
+    <span class="button">
+      Beispiel Button
+    </span>
+
+  </div>
+
+</section>
+
+
+<script>
+
+/* =========================
+   1. SCROLL ZOOM
+   ========================= */
+
+const zoomSection =
+  document.getElementById("zoomSection");
+
+const zoomCard =
+  document.getElementById("zoomCard");
+
+const zoomBackground =
+  document.getElementById("zoomBackground");
+
+
+function updateZoom(){
+
+  const rect =
+    zoomSection.getBoundingClientRect();
+
+  const scrollable =
+    zoomSection.offsetHeight -
+    window.innerHeight;
+
+  let progress =
+    -rect.top / scrollable;
+
+  progress =
+    Math.max(0,Math.min(1,progress));
+
+
+  /* Karte wird größer */
+
+  const scale =
+    0.72 + progress * 0.38;
+
+  zoomCard.style.transform =
+    `scale(${scale})`;
+
+
+  /* Ecken verschwinden langsam */
+
+  const radius =
+    35 * (1-progress);
+
+  zoomCard.style.borderRadius =
+    radius + "px";
+
+
+  /* Hintergrund zoomt zusätzlich */
+
+  const bgScale =
+    1.15 + progress * 0.25;
+
+  zoomBackground.style.transform =
+    `scale(${bgScale})`;
+
+}
+
+
+/* =========================
+   2. TEXT REVEAL
+   ========================= */
+
+const revealSection =
+  document.getElementById("revealSection");
+
+const words =
+  document.querySelectorAll(".word");
+
+
+function updateWords(){
+
+  const rect =
+    revealSection.getBoundingClientRect();
+
+  const screen =
+    window.innerHeight;
+
+  let progress =
+    (screen - rect.top) /
+    (screen + rect.height * .55);
+
+  progress =
+    Math.max(0,Math.min(1,progress));
+
+
+  words.forEach((word,index)=>{
+
+    const start =
+      index / words.length;
+
+    const difference =
+      progress - start;
+
+    let opacity =
+      .13 + difference * 5;
+
+    opacity =
+      Math.max(.13,Math.min(1,opacity));
+
+    word.style.opacity =
+      opacity;
+
+  });
+
+}
+
+
+/* =========================
+   3. HORIZONTAL SCROLL
+   ========================= */
+
+const horizontalSection =
+  document.getElementById("horizontalSection");
+
+const horizontalTrack =
+  document.getElementById("horizontalTrack");
+
+
+function updateHorizontal(){
+
+  const rect =
+    horizontalSection.getBoundingClientRect();
+
+  const maxScroll =
+    horizontalSection.offsetHeight -
+    window.innerHeight;
+
+  let progress =
+    -rect.top / maxScroll;
+
+  progress =
+    Math.max(0,Math.min(1,progress));
+
+
+  const maxMove =
+    horizontalTrack.scrollWidth -
+    window.innerWidth +
+    window.innerWidth * .08;
+
+  horizontalTrack.style.transform =
+    `translateX(${-progress * maxMove}px)`;
+
+}
+
+
+/* =========================
+   4. REVEAL OBSERVER
+   ========================= */
+
+const observer =
+  new IntersectionObserver(
+
+    entries => {
+
+      entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+        }
+
+      });
+
+    },
+
+    {
+      threshold:.2
+    }
+
+  );
+
+
+document
+  .querySelectorAll(".observe")
+  .forEach(el => observer.observe(el));
+
+
+/* =========================
+   MASTER SCROLL
+   ========================= */
+
+let ticking=false;
+
+function update(){
+
+  updateZoom();
+  updateWords();
+  updateHorizontal();
+
+  ticking=false;
+
+}
+
+window.addEventListener(
+  "scroll",
+  ()=>{
+
+    if(!ticking){
+
+      requestAnimationFrame(update);
+      ticking=true;
+
+    }
+
+  },
+  {passive:true}
+);
+
+window.addEventListener(
+  "resize",
+  update
+);
+
+update();
+
+</script>
+
+</body>
+</html>
